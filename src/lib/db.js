@@ -28,8 +28,9 @@ export const db = {
 
   // Orders
   getOpenOrders: () => invoke('get_open_orders'),
-  getOrdersHistory: (from, to) => invoke('get_orders_history', { from, to }),
-  createOrder: (tableId) => invoke('create_order', { tableId }),
+  getOrdersHistory: (from, to, userId = null) =>
+    invoke('get_orders_history', { from, to, userId }),
+  createOrder: (tableId, userId = null) => invoke('create_order', { tableId, userId }),
   getOrderDetails: (orderId) => invoke('get_order_details', { orderId }),
   addOrderItem: (orderId, menuItemId, quantity, note = null) =>
     invoke('add_order_item', { orderId, menuItemId, quantity, note }),
@@ -41,4 +42,23 @@ export const db = {
 
   // Reports
   getDailyReport: (date) => invoke('get_daily_report', { date }),
+  getUserReport: (userId, from, to) => invoke('get_user_report', { userId, from, to }),
+
+  // Auth / Users
+  authenticate: (username, password) => invoke('authenticate', { username, password }),
+  getUsers: () => invoke('get_users'),
+  addUser: (username, password, role, fullName = null) =>
+    invoke('add_user', { username, password, role, fullName }),
+  updateUser: (id, username, role, fullName, active) =>
+    invoke('update_user', { id, username, role, fullName, active }),
+  deleteUser: (id) => invoke('delete_user', { id }),
+  changePassword: (id, newPassword) => invoke('change_password', { id, newPassword }),
+
+  // Printers
+  getPrinters: () => invoke('get_printers'),
+  printKitchenTicket: (printerName, content) =>
+    invoke('print_kitchen_ticket', { printerName, content }),
+
+  // Admin invoice edit
+  adminEditOrder: (id, note, discount) => invoke('admin_edit_order', { id, note, discount }),
 };
